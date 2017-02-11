@@ -1,0 +1,86 @@
+#CardUI{
+	white-space:nowrap;
+}
+
+.CardUI-column{
+    white-space: nowrap;
+	height: 100%;
+	display: inline-block;
+}
+
+div.CardUI-card{
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 10px;
+	min-width: 80px;
+	max-width: 500px;
+	position: relative;
+	background-color: darkred;
+	color: white;
+	border: solid 3px darkred;
+}
+
+.CardUI-maximized-card{
+	position: absolute;
+	width: 90%;
+	height: 90%;
+	z-index: 2;
+	margin-left: auto ;
+	margin-right: auto ;
+	top: 0px;
+	left: 0px;
+	background-color: white;
+	max-width: none;
+}
+
+.CardUI-card-title{padding: 10px; font-size: 150%;border-bottom: 1px solid #aaaaaa;}
+.CardUI-card-content{padding: 10px;overflow: auto; background-color: #22bb22}
+.CardUI-inputtable{background-color: eeee33; color: black;}
+
+button.CardUI-card{
+	display: block;
+	background-color:#4444ff;
+	color: white;
+	padding:10px;
+	margin: 0px;
+	width: 100%;
+}
+
+table.CardUI-inputtable td {padding: 5px;}
+
+.CardUI-col-container{
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+}
+
+.CardUI-div-center-helper {
+    display: inline-block;
+    vertical-align: middle;
+    height:100%;
+}
+
+.CardUI-clickable{
+	cursor: hand;
+}
+.CardUI-clickable:hover{background-color: #FF5555;}
+
+.CardUI-selectedItem{
+	border: 3px solid green !important;
+}
+
+div.CardUI-closeButton{
+	display: inline;
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	width: 15px;
+	height: 15px;
+	background-image:url('/img/close.png');
+	cursor: hand;
+}
+div.CardUI-closeButton:hover{
+	background-size: 17px 17px;
+	right: 3px;
+	top: 1px;
+}

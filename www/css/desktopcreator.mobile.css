@@ -1,0 +1,15 @@
+div.dcshortcut{
+	float: none;
+	text-align: left;
+	width: 100%;
+	
+}
+div.dcshortcut p{
+	display: inline-block;
+	line-height: 48px;
+	padding-left: 10px;
+}
+
+div.dcshortcut img{
+	display: inline-block;
+}

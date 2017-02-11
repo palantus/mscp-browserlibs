@@ -1,0 +1,71 @@
+.fe{
+	display: inline-block;
+	/*
+	min-width: 20px;
+	min-height: 15px;
+	*/
+	/*min-width: 1em;
+	min-height: 1em;*/
+	/*border: 1px solid transparent;*/
+}
+
+.feedit:hover{/*border: 1px dotted gray*/}
+
+.feedit{
+	position: relative;
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	vertical-align: top;
+	/*border: 1px solid transparent;*/
+}
+
+.feedit:hover{
+}
+
+.feedit .fevalueelement{
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+	border: 1px transparent;
+	resize: none;
+	vertical-align: top;
+	background: transparent;
+}
+
+.feedit .fevalueelement:not([type="checkbox"]){
+	width: 100%;	
+}
+
+button.fesave{
+	position: absolute;
+	margin-left: 10px;
+	left: 0px;
+	z-index: 2;
+}
+
+button.febuttonsmall{background-color:#FFF;border:1px solid #aaa;padding-bottom:0px;padding-left: 5px;padding-right: 5px; padding-top: 0px; margin: 0px; border-radius: 2px 2px 2px 2px; vertical-align: middle;}
+button.febuttonsmall:hover{background-color:#f5f5f5; cursor: pointer;}
+
+
+/* Tag list*/
+.fetaglist span{
+	border: 1px solid gray;
+	border-radius: 5px;
+	margin-right: 5px;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+.fetaglist span img{
+	width: 10px;
+	height: 10px;
+	margin-left: 4px;
+	cursor: pointer;
+}
+
+.fetaglistnew{
+	width: 12px;
+	height: 12px;
+	cursor: pointer;
+}

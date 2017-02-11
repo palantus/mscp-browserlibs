@@ -1,0 +1,146 @@
+.tbcbar{
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+	background-color: white;
+	width: 100%;
+	border-top: 1px solid;
+	height: 30px;
+	z-index: 99999;
+	box-shadow: 0px 0px 10px #333;
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	-ms-user-select:none; 
+	user-select:none;
+	background: rgba(255, 255, 255, 0.8);
+}
+
+.tbcstartbutton{position: fixed; left: 0px; bottom: 0px; width: 25px; height: 25px; cursor: pointer; padding-bottom: 3px; padding-left: 5px; padding-top: 2px; padding-right: 7px;}
+.tbctasks{position: fixed; left: 35px; bottom: 0px; height: 30px;}
+.tbctray{position: fixed; right: 0px; bottom: 0px; height: 30px;}
+
+div.tbctask {
+	display: inline-block;
+	height: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	cursor: pointer;
+
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	-ms-user-select:none; 
+	user-select:none;
+	
+	border-left: 1px solid gray;
+	vertical-align: middle;
+	
+}
+
+.tbctasks > div:hover{
+	background-color: #ccc;
+}
+
+/* Task icon */
+.tbctasks img{
+	line-height: 30px;
+	width: 20px;
+	height: 20px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 5px;
+}
+
+/* Task text */
+.tbctasks > div > span {
+	line-height: 30px;
+	white-space: nowrap;
+	overflow: hidden;
+	resize: none;
+	text-overflow: ellipsis;
+	display: inline-block;
+	line-height: 30px;
+	font-size: 110%;
+	max-width: 150px;
+
+}
+
+
+.tbctasks > div:last-of-type > span {
+	max-width: 100% !important;
+
+}
+
+
+.tbctasks > div > div.hoverelement{
+	position: absolute;
+	top: -30px;
+	z-index: 99999;
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	-ms-user-select:none; 
+	user-select:none;
+
+	padding-left: 5px;
+	padding-right: 5px;
+
+	background-color: white;
+	/*background:rgba(255,255,255,0.5);*/
+
+	border: 1px solid black;
+	
+	-moz-box-shadow: 0px 0px 3px #333;
+	-webkit-box-shadow: 0px 0px 3px #333;
+	box-shadow: 0px 0px 3px #333;
+	
+	-moz-border-radius: 3px 3px 3px 3px;
+	border-radius: 3px 3px 3px 3px;
+
+	display: none;
+}
+
+.tbcstartmenuitem{
+	height: 20px;
+	cursor: pointer;
+	border: 1px solid transparent;
+	padding: 5px;
+}
+
+.tbcstartmenuitem:hover{
+	border: 1px solid gray;
+}
+/*
+.tbcstartmenuitem:first-child{margin-top: 5px;}
+.tbcstartmenuitem:last-child{margin-bottom: 5px;}
+*/
+.tbcstartmenuitem span{
+	line-height: 20px;
+	margin-left: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	resize: none;
+	text-overflow: ellipsis;
+	max-width: 200px;
+	display: inline-block;
+}
+.tbcstartmenuitem img{
+	width: 20px;
+	height: 20px;
+}
+
+table.tbcmenutable{
+	vertical-align: top;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+}
+table.tbcmenutable td{
+	vertical-align: top;
+	border-right: 1px solid gray;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+table.tbcmenutable td:last-child{border-right: none !important; padding-right: 0px !important;}
+table.tbcmenutable td:first-child{padding-left: 0px !important;}

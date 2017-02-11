@@ -1,0 +1,71 @@
+.sbcontainer{
+	margin-bottom: 5px;
+	text-align: center;
+	margin-top: 5px;
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	-ms-user-select:none; 
+	user-select:none;
+}
+
+.sbbar{
+	width: 300px;
+	resize: none;
+	box-shadow: 0px 0px 7px #777;
+	border: 0px;
+	border-radius: 3px 3px 3px 3px;
+	padding: 3px;
+}
+
+.sbbarwithdownarrow {
+	padding-right: 20px;
+	margin-right: -8px;
+}
+
+img.sbdownarrow{
+	width: 11px; 
+	height: 7px; 
+	left: -14px; 
+	position: relative; 
+	top: 0px;
+	cursor: pointer;
+	color: #aaaaaa;
+	padding: 5px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+	top: 5px;
+}
+
+.sbdropdown{
+	display:none;
+	position:absolute;
+	background-color: #eeeeee; 
+	z-index: 2;
+	padding: 5px; 
+	padding-left: 0px;
+	padding-right: 0px;
+	/*
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	*/
+
+	-moz-box-shadow: 2px 2px 3px #aaa, -2px 2px 3px #aaa;
+	-webkit-box-shadow: 2px 2px 3px #aaa, -2px 2px 3px #aaa;
+	box-shadow: 2px 2px 3px #aaa, -2px 2px 3px #aaa;
+
+	-moz-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+
+	background: -webkit-linear-gradient(top, #ffffff, #eeeeee);
+	background: -moz-linear-gradient(top, #ffffff, #eeeeee);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#eeeeee)";
+	background: -ms-linear-gradient(top, #ffffff, #eeeeee);
+}
+
+/* Saved search dropdown */
+
+.sbdropdown table {width: 100%;}
+.sbdropdown table td{text-align: left; padding-left: 5px;}
+.sbdropdown table tbody tr{cursor: pointer}
+.sbdropdown table tbody tr:focus{background-color: lightgrey;outline: none;}
