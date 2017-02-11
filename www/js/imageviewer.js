@@ -1,5 +1,5 @@
 function ImageViewer(){
-	this.imagelist = [];	
+	this.imagelist = [];
 	this.element = null;
 	this.curIdx = -1;
 }
@@ -7,7 +7,7 @@ function ImageViewer(){
 ImageViewer.prototype.init = function(images){
 	var t = this;
 	images = $.extend(true, [], images);
-	this.imagelist = !$.isArray(images) ? [images] : images; 
+	this.imagelist = !$.isArray(images) ? [images] : images;
 
 	for(var i = 0; i < this.imagelist.length; i++)
 		this.imagelist[i].id = guid();
@@ -48,7 +48,7 @@ ImageViewer.prototype.show = function(index){
 	else
 		return;
 
-	var img = $("<img></img>", {src: "/img/loading2.gif"});	
+	var img = $("<img></img>", {src: "/mscp/libs/img/loading2.gif"});	
 	this.element.append(img);
 
 	this.loadAdjacentImages(this.curIdx);

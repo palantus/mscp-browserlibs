@@ -4,13 +4,13 @@ Options:
  - delayedSearch (number of ms to wait while typing - undefined for instant)
  - onSearch
  - style
- - dropDownItems 
+ - dropDownItems
 		can be array like: [{title: "Item 1", query: "val1"}, {title: "Item 2", query: "val2"}]
 		or function called for data: function(callback){...}
  - delayIfCharsBelow		: number of chars below which auto search is delayed. Default 0.
  - delayIfCharsBelowFactor : factor multiplied on delay if number of chars is below delayIfCharsBelow. Default 2.
 
-		
+
  Notes:
  - In onSearch, you can access a tablecreator on the same popup like: this.popupCreator.contentObjects[1].reloadData(query);
  - You can use $(SEARCHBAR).trigger("dosearch") to force a search
@@ -22,7 +22,7 @@ function SearchBar(language){
 	this.element = null;
 	this.isNested = false;
 	this.language = language ? language : "en";
-	
+
 	this.translations = {
 							da: {
 								search: "Søg"
@@ -35,7 +35,7 @@ function SearchBar(language){
 
 SearchBar.prototype.init = function(_options){
 	this.options = _options;
-	
+
 	if(_options !== undefined && _options.language !== undefined)
 		this.language = _options.language;
 
@@ -55,15 +55,15 @@ SearchBar.prototype.show = function(){
 	}
 
 	this.element.addClass("sbcontainer");
-	
+
 	if(t.options.style !== undefined)
 		this.element.css(t.options.style);
-	
+
 	//this.element.append("Søg: ");
-	
+
 	var bar = $("<input class='sbbar' placeholder='" + this.label("search") + "...'></input>");
 	bar.attr("tabindex",-1);
-	
+
 	bar.keydown(function(e){
 		if(e.which === 40){
 			t.showDropDown();
@@ -71,19 +71,19 @@ SearchBar.prototype.show = function(){
 			t.invokeSearch();
 		}
 	});
-	
+
 	bar.on("dosearch", function(){
 		t.invokeSearch();
 	});
-	
+
 	bar[0].oninput = function () {
 		if(typeof(t.options.delayedSearch) === "number"){
 			clearTimeout(t.delayTimer);
 			var delay = t.options.delayedSearch;
-			
+
 			if(isNaN(t.options.delayIfCharsBelow) || t.element.find(".sbbar").val().length < t.options.delayIfCharsBelow)
 				delay *= !isNaN(t.options.delayIfCharsBelow) ? t.options.delayIfCharsBelow : 2;
-			
+
 			t.delayTimer = setTimeout(function() {
 				t.invokeSearch();
 			}, delay);
@@ -91,13 +91,13 @@ SearchBar.prototype.show = function(){
 			t.invokeSearch();
 		}
 	};
-	
+
 	this.element.append(bar);
-	
+
 	if(this.options.dropDownItems !== undefined){
 		bar.addClass("sbbarwithdownarrow");
 
-		var downArrow = $("<img/>", {src: "/img/downarrow.png", "class": "sbdownarrow"});
+		var downArrow = $("<img/>", {src: "/mscp/libs/img/downarrow.png", "class": "sbdownarrow"});
 		//downArrow.html("&#x25BC;");
 		downArrow.click(function(){
 			var dd = t.element.find(".sbdropdown");
@@ -107,9 +107,9 @@ SearchBar.prototype.show = function(){
 				t.showDropDown();
 			}
 		});
-		
+
 		this.element.append(downArrow);
-		
+
 		var dropDown = $("<div/>", {"class": "sbdropdown"});
 		dropDown.append("<table><tbody></tbody></table> ");
 		this.element.append(dropDown);
@@ -124,7 +124,7 @@ SearchBar.prototype.invokeSearch = function(){
 SearchBar.prototype.hideDropDown = function(){
 	var dd = this.element.find(".sbdropdown");
 	var bar = this.element.find(".sbbar");
-	
+
 	dd.slideUp("fast");
 	bar.prop('disabled', false);
 	if(typeof(isMobile) !== "function" || !isMobile())
@@ -135,14 +135,14 @@ SearchBar.prototype.showDropDown = function(){
 	var t = this;
 	var dd = this.element.find(".sbdropdown");
 	var bar = this.element.find(".sbbar");
-	
+
 	dd.css("top", bar.position().top + bar.outerHeight() + 1);
 	dd.css("left", bar.position().left);
 	dd.css("width", bar.outerWidth());
-	
+
 	var tbody = dd.find("tbody");
 	tbody.empty();
-	
+
 	this.getDropDownItems(function(dropDownItems){
 		if($.isArray(dropDownItems)){
 			for(i in dropDownItems){
@@ -153,14 +153,14 @@ SearchBar.prototype.showDropDown = function(){
 				tr.click(t.onDropDownEvent);
 				tr.keydown(t.onDropDownEvent);
 				tr.attr("tabindex",-1);
-				
+
 				var td = $("<td/>");
 				td.html(dropDownItems[i].title !== undefined ? dropDownItems[i].title : dropDownItems[i].Title);
 				tr.append(td);
 				tbody.append(tr);
 			}
 			dd.show();
-		} 
+		}
 		bar.prop('disabled', true);
 		dd.find("tbody tr:first").focus();
 	});
@@ -182,12 +182,12 @@ SearchBar.prototype.onDropDownEvent = function(e){
 	if(query === undefined)
 		query = $(this).data("item").Query;
 	var t = $(this).data("sb");
-	
+
 	var inp = $(this).closest(".sbcontainer").find(".sbbar");
 	var dd = $(this).closest(".sbcontainer").find(".sbdropdown");
-	
+
 	var numItems = dd.find("tbody tr").length;
-	
+
 	if(e == undefined || e.which == 13 || (e.type == "click" && e.button == 0)){
 		inp.val(query);
 		t.hideDropDown();

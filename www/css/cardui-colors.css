@@ -76,7 +76,7 @@ div.CardUI-closeButton{
 	right: 2px;
 	width: 15px;
 	height: 15px;
-	background-image:url('/img/close.png');
+	background-image:url('/mscp/libs/img/close.png');
 	cursor: hand;
 }
 div.CardUI-closeButton:hover{

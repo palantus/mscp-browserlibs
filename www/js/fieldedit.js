@@ -1,12 +1,12 @@
 /*
-	Todo: 
+	Todo:
 		- select resulterer i en højere row når man klikker på den
 		- select skal implementeres som en custom dropdown, så jeg slipper af med den "pil ned"
 		- skal give mulighed for at smide en lookup på et tekstfelt (overvej så om "select" skal fjernes til fordel for denne).
-	
-	Usage: 
+
+	Usage:
 		- setValue
-		
+
 	Additional options:
 		- onEdit
 		- element
@@ -17,7 +17,7 @@
 		- onTagAdd
 		- onTagRemove
 		- maxLength: max length of string fields
-		
+
 */
 
 function FieldEdit(language){
@@ -28,7 +28,7 @@ function FieldEdit(language){
 	this.saveBtn = null;
 	this.popup = null;
 	this.language = language ? language : "en";
-	
+
 	this.translations = {
 							da: {save: "Gem"},
 							en: {save: "Save"}
@@ -38,32 +38,32 @@ function FieldEdit(language){
 FieldEdit.prototype.init = function(_options){
 	this.options = _options;
 	var t = this;
-	
+
 	if(typeof(this.options.elementRef) === "string")
 		this.element = $("#" + this.options.elementRef);
 	else if(typeof(this.options.element) === "object")
 		this.element = this.options.element;
-		
+
 	if(!this.element)
 		console.log("ERROR: No element for FieldEdit options");
-	
+
 	this.element.addClass("fe");
 	this.element.addClass("feedit");
-	
+
 	this.element.data("fe", this);
-	
+
 	if(typeof(this.options.values) === "function"){
 		this.options.values.call(this, function(values){
 			t.options.values = values;
 		});
 	}
-	
+
 	return this;
 }
 
 FieldEdit.prototype.attach = function(){
 	var t = this;
-	
+
 	this.element.mouseenter(function(){
 		if(!t.valueChanged() || !t.valueElement){
 			clearTimeout(t.mouseOutTimer);
@@ -76,7 +76,7 @@ FieldEdit.prototype.attach = function(){
 		if(!$(".feedit .fevalueelement").is(":focus"))
 			t.show();
 	});
-	
+
 	this.element.empty();
 	if(this.options.valueDisplay !== undefined)
 		this.element.append(this.options.valueDisplay ? this.options.valueDisplay : "&nbsp;");
@@ -87,15 +87,15 @@ FieldEdit.prototype.attach = function(){
 FieldEdit.prototype.show = function(setFocus){
 	var originalWidth = this.element.width();
 	var originalHeight = this.element.height();
-	
+
 	var t = this;
-		
+
 	var value = null;
 	if(typeof(this.options.valueSource) === "function")
 		value = this.options.valueSource.call(this);
 	else
 		value = this.options.value;
-		
+
 	switch(this.options.type){
 		case "text" :
 			this.valueElement = $("<textarea/>", {class: "fevalueelement", val: value, rows: 1});
@@ -119,7 +119,7 @@ FieldEdit.prototype.show = function(setFocus){
 				var tags = t.options.value.split(",");
 				for(var i = 0; i < tags.length; i++){
 					var newTagElement = $("<span/>", {html: $.trim(tags[i])});
-					var removeBtn = $("<img/>", {src: "/img/close.png"});
+					var removeBtn = $("<img/>", {src: "/mscp/libs/img/close.png"});
 					removeBtn.data("tag", $.trim(tags[i]));
 					removeBtn.click(function(e){
 						var tag = $(this).data("tag");
@@ -130,7 +130,7 @@ FieldEdit.prototype.show = function(setFocus){
 					this.valueElement.append(newTagElement);
 				}
 			}
-			var newTagBtn = $("<img/>", {src: "/img/add.png", class: "fetaglistnew"});
+			var newTagBtn = $("<img/>", {src: "/mscp/libs/img/add.png", class: "fetaglistnew"});
 			newTagBtn.click(function(e){
 				var tag = $(this).data("tag");
 				t.hide();
@@ -156,13 +156,13 @@ FieldEdit.prototype.show = function(setFocus){
 			console.log("Unknown type: " + this.options.type);
 			return;
 	}
-	
+
 	if(!isNaN(t.options.maxLength))
 		this.valueElement.attr("maxlength", t.options.maxLength);
-	
+
 	this.element.empty();
 	this.element.append(this.valueElement);
-	
+
 	this.element.mouseleave(function(){
 		if(t.element !== null && !t.valueElement.is(":focus") && !t.valueChanged())
 			t.hide();
@@ -177,7 +177,7 @@ FieldEdit.prototype.show = function(setFocus){
 	this.element.focusin(function(){
 		t.saveBtn.show();
 	});
-	
+
 	this.element.keydown(function(e){
 		var keyCode = e.keyCode || e.which;
 		if(keyCode == 13){ //ENTER
@@ -197,12 +197,12 @@ FieldEdit.prototype.show = function(setFocus){
 				var rootElement = t.element.closest(".pccontent");
 			else
 				var rootElement = t.element.parent();
-			
+
 			if(e.shiftKey)
 				var fields = $(rootElement.find(".fe").get().reverse());
 			else
 				var fields = rootElement.find(".fe");
-			
+
 			fields.each(function(){
 				if(isMe){
 					var fe = $(this).data("fe");
@@ -215,19 +215,19 @@ FieldEdit.prototype.show = function(setFocus){
 					isMe = true;
 			});
 		}
-		
+
 		return true;
 	});
-	
+
 	if(this.element.height() > 0)
 		this.valueElement.height(originalHeight > 0 ? originalHeight : "1em");
-	
+
 	if(this.options.sameWidth === true){
 		this.valueElement.width(originalWidth);
 	} else if(this.options.width !== undefined){
 		this.valueElement.width(this.options.width);
 	}
-	
+
 	this.valueElement.css({
 							"font-family": this.element.css("font-family"),
 							"font-size": this.element.css("font-size"),
@@ -235,7 +235,7 @@ FieldEdit.prototype.show = function(setFocus){
 							"font-variant": this.element.css("font-variant"),
 							"font-weight": this.element.css("font-weight")
 						});
-	
+
 	this.saveBtn = $("<button/>", {class: "fesave febuttonsmall", html: this.label("save")});
 	this.saveBtn.mousedown(function(){
 		t.save();
@@ -243,7 +243,7 @@ FieldEdit.prototype.show = function(setFocus){
 	this.saveBtn.css("top", this.element.height());
 	this.saveBtn.hide();
 	this.element.append(this.saveBtn);
-	
+
 	if(setFocus)
 		this.valueElement.focus();
 }
@@ -251,16 +251,16 @@ FieldEdit.prototype.show = function(setFocus){
 FieldEdit.prototype.valueChanged = function(){
 	var curVal = this.getValue();
 	var savedVal = this.options.value;
-	
+
 	if(curVal == savedVal || (!curVal && !savedVal) || this.options.type == "taglist")
 		return false;
-		
+
 	return true;
 }
 
 FieldEdit.prototype.getValue = function(){
 	var value = null;
-	
+
 	if(this.valueElement){
 		if(this.options.type === "checkbox")
 			value = this.valueElement.is(":checked");
@@ -290,7 +290,7 @@ FieldEdit.prototype.hide = function(){
 		this.element.off("focusout");
 		this.element.off("mouseleave");
 		this.element.off("keydown");
-		
+
 		if(this.options.valueDisplay !== undefined)
 			this.element.append(this.options.valueDisplay ? this.options.valueDisplay : "&nbsp;");
 		else

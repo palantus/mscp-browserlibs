@@ -17,7 +17,7 @@ div.CardUI{
 }
 
 div.CardUI-card{
-	border: 1px solid gray;	
+	border: 1px solid gray;
 	margin-top: 6px;
 	margin-bottom: 6px;
 	margin-left: 10px;
@@ -27,11 +27,11 @@ div.CardUI-card{
 	display: inline-block;
 	clear:both;
 	float: left;
-	
+
 	-moz-box-shadow: 0 0 5px #888;
 	-webkit-box-shadow: 0 0 5px#888;
 	box-shadow: 0 0 5px #888;
-	
+
 	border-radius: 3px;
 }
 
@@ -99,7 +99,7 @@ button.CardUI-card{
 }
 
 button.CardUI-card:last-child{border-bottom:0; border-radius: 3px;}
-div.NewUI-CardButtonGroup{/*position: absolute; width: 100%; bottom: 0px;*/} /* FIX - hvis man slår det til overlapper knapperne det andet på kortet... */
+div.NewUI-CardButtonGroup{/*position: absolute; width: 100%; bottom: 0px;*/} /* FIX - hvis man slï¿½r det til overlapper knapperne det andet pï¿½ kortet... */
 
 div.CardUI-separator{
 	border-top: 1px solid #aaaaaa;
@@ -135,7 +135,7 @@ div.CardUI-closeButton{
 	right: 2px;
 	width: 15px;
 	height: 15px;
-	background-image:url('/img/close.png');
+	background-image:url('/mscp/libs/img/close.png');
 	cursor: hand;
 }
 div.CardUI-closeButton:hover{
