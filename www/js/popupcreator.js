@@ -390,6 +390,9 @@ PopupCreator.prototype.afterShow = function(callback){
 }
 
 PopupCreator.prototype.fixSizing = function(){
+  if(this.element === undefined || this.element == null)
+    return;
+    
 	var title = this.element.find(".pctitle");
 	var buttons = this.element.find(".pctopctlbtns");
 

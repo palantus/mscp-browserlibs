@@ -30,13 +30,13 @@ div.pcpopup{
 	min-height: 50px;
     /*max-width: 1900px;*/
     /*margin-left: -300px;*/
-	
+
 	/*background-color: #eeeeee; */
-	
+
 	-moz-box-shadow: 0px 0px 10px #333;
 	-webkit-box-shadow: 0px 0px 10px #333;
 	box-shadow: 0px 0px 10px #333;
-	
+
 	-moz-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 5px 5px;
 
@@ -69,13 +69,13 @@ div.pcpopup .pccontent *{
 }
 */
 
-div.pctopdiv{width: 100%; height: 34px; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;border-radius: 5px 5px 5px 5px;/* background-color: rgba(200, 200, 200, 0.9); */}
+div.pctopdiv{width: 100%; height: 34px; cursor: move; -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;border-radius: 5px 5px 5px 5px;/* background-color: rgba(200, 200, 200, 0.9); */}
 div.pctopdiv.moveable{cursor: move;}
 div.pctopctlbtns{white-space: nowrap;right: 4px; top: 4px; position: absolute;}
 div.pctopdiv div{float: left;}
 
 div.pctitle{
-	
+
 	font-size: 130%;
 	/*float:left;*/
 	/*margin-right: 73px;*/
@@ -84,9 +84,9 @@ div.pctitle{
 	white-space: nowrap;
 	overflow: hidden;
 	resize: none;
-	-moz-user-select: none; 
-	-webkit-user-select: none; 
-	-ms-user-select:none; 
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
 	user-select:none;
 	text-overflow: ellipsis;
 }
@@ -113,14 +113,14 @@ button.pctabtitle{
 	padding-left: 7px;
 	padding-right: 7px;
 	border: 1px solid black;
-	
+
 	-moz-border-radius: 5px 5px 5px 5px;
 	border-radius: 5px 5px 0px 0px;
 	margin: 0px;
 	margin-top: 4px;
 	/* border-bottom: 0px; */
 	height: 30px;
-	
+
 	margin-right: 2px;
 	border: 0px;
 }
@@ -151,12 +151,12 @@ div.pccontent {
 	/*border: 1px solid;*/
 	height: 100%;
 	/*background-color: white*/;
-	
+
 	-moz-border-radius: 0px 0px 5px 5px;
 	border-radius: 0px 0px 5px 5px;
 
 	/* background-color: rgb(250, 250, 250); */
-	
+
 	/*
 	background: -webkit-linear-gradient(top, #ffffff, #eeeeee);
 	background: -moz-linear-gradient(top, #ffffff, #eeeeee);
@@ -168,7 +168,7 @@ div.pccontent {
 img.pctoprighticon{
 	/*float:right;*/
 	cursor: pointer;
-	
+
 	display: inline;
 	/*position: absolute;*/
 	top: 2px;
@@ -222,9 +222,9 @@ div.pcpopupminimized {
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	font-size: 120%;
-	-moz-user-select: none; 
-	-webkit-user-select: none; 
-	-ms-user-select:none; 
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
 	user-select:none;
 }
 
@@ -234,7 +234,7 @@ div.pcpopupminimized {
 .pcfocused-animation{
 	border-color: blue !important;
 	transition: border-color 0.2s;
-	
+
 	box-shadow: 0px 0px 10px #00f !important;
 	transition: box-shadow 0.2s;
 }
