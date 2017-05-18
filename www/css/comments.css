@@ -6,6 +6,7 @@ div.cmt{
 div.cmtcommentcontainer{
 	position: relative;
 	border: 1px transparent solid;
+	margin-bottom: 5px;
 }
 
 div.mycomment{
@@ -13,11 +14,11 @@ div.mycomment{
 }
 
 span.cmttimestamp{
-color: gray;
+color: darkblue;
 }
 
 span.cmtuserid{
-color: gray;
+color: darkblue;
 padding-left: 5px;
 }
 

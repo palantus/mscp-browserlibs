@@ -1,10 +1,10 @@
 /*
-	Usage: 
-	
-		
+	Usage:
+
+
 	Additional options:
 		- onClickOverride: will be called instead of onClick if set. Can be used to call onClick with specific parameters.
-		
+
 */
 
 function Comments(){
@@ -17,26 +17,26 @@ function Comments(){
 Comments.prototype.init = function(_options){
 	this.options = _options;
 	var t = this;
-	
+
 	var t = this;
 	if(typeof(this.options.elementRef) === "string")
 		this.element = $("#" + this.options.elementRef);
 	else if(typeof(this.options.element) === "object")
 		this.element = this.options.element;
-		
+
 	if(!this.element)
 		console.log("ERROR: No element for Comments options");
-	
+
 	this.element.addClass("cmt");
-	
+
 	return this;
 }
 
 Comments.prototype.show = function(){
 	var t = this;
-		
+
 	t.element.empty();
-		
+
 	var addLink = $("<button/>", {class: "cmtbutton cmtnew", html: "Ny", href: "#"});
 	addLink.click(function(){
 		/*
@@ -56,10 +56,10 @@ Comments.prototype.show = function(){
 				});
 			}
 		});
-		
+
 	});
 	this.element.append(addLink);
-		
+
 	if($.isArray(t.options.comments)){
 		this.comments = t.options.comments;
 		t.appendComments();
@@ -77,16 +77,16 @@ Comments.prototype.appendComments = function(){
 		var userId = this.comments[i].userId ? this.comments[i].userId : this.comments[i].UserId;
 		var timestamp = this.comments[i].timestamp ? this.comments[i].timestamp : this.comments[i].Timestamp;
 		var comment = this.comments[i].comment ? this.comments[i].comment : this.comments[i].Comment;
-		
+
 		var myComment = t.options.myUserId === undefined || t.options.myUserId === userId;
-		
+
 		var commentDiv = $("<div/>", {class:"cmtcommentcontainer" + (myComment?" mycomment":"")});
 		commentDiv.data("comment", this.comments[i]);
 		commentDiv.append($("<span/>", {html: timestamp, class:"cmttimestamp"}));
 		commentDiv.append($("<span/>", {html: userId + ":", class:"cmtuserid"}));
 		commentDiv.append($("<span/>", {html: comment, class:"cmtcomment"}));
-		
-		
+
+
 		if(myComment){
 			commentDiv.click(function(){
 				var item = $(this).data("comment");
@@ -113,7 +113,7 @@ Comments.prototype.appendComments = function(){
 					}, comment);
 				}
 			});
-			
+
 			var deleteBtn = $("<button/>", {class:"cmtbuttonsmall cmtdelete", html: "Slet"});
 			deleteBtn.data("comment", this.comments[i]);
 			deleteBtn.click(function(e){
@@ -129,11 +129,15 @@ Comments.prototype.appendComments = function(){
 					}
 				}
 			});
-			
+
 			commentDiv.append(deleteBtn);
 		}
-		
+
 		this.element.append(commentDiv);
+	}
+  
+  if(typeof(t.options.afterRefresh) === "function"){
+		t.options.afterRefresh.call(t, this.element);
 	}
 }
 
@@ -149,7 +153,7 @@ Comments.prototype.writeComment = function(callback, origComment){
 		onShow: function(){
 			var t = this;
 			this.element.find("textarea").focus();
-			
+
 			if(origComment !== undefined){
 				this.element.find("textarea").val(origComment);
 			}
@@ -159,7 +163,7 @@ Comments.prototype.writeComment = function(callback, origComment){
 					t.element.find("#ok").click();
 				}
 			});
-			
+
 			this.element.find("#ok").click(function(){
 				var newTitle = t.element.find("textarea").val();
 				if(newTitle){
@@ -167,7 +171,7 @@ Comments.prototype.writeComment = function(callback, origComment){
 					callback.call(t, newTitle);
 				}
 			});
-			
+
 			this.element.find("#cancel").click(function(){
 				t.close();
 			});

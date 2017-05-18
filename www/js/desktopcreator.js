@@ -3,13 +3,13 @@ var desktop = new DesktopCreator();
 desktop.init({
 		elementRef: "desktop",
 		desktopShortcuts: [
-							{title: "Settings", isFolder: true, 
+							{title: "Settings", isFolder: true,
 									content: [
 												{title: "Site", icon: "/img/settings.png", popup: {title: "Site settings", content: "Site settings"}},
 												{title: "Personal", popup: {title: "Personal", content: "Personal settings"}}
 											 ]},
-							{title: "Task List", icon: "/img/desktop/checklist.png", 
-									popup: {	title: "Task List", 
+							{title: "Task List", icon: "/img/desktop/checklist.png",
+									popup: {	title: "Task List",
 												content: [new SearchBar().init({dropDownItems: items}), new TableCreator().init({})],
 												onShow: function(){this.element.find(".sbbar").focus();}
 											}
@@ -30,7 +30,7 @@ shortcut options:
 - onBeforeShow: function called before showing icon (also if drawing it again). "this" is the DesktopCreator and the first arg is the shortcut.
 
 API:
-- runApp: Runs an app (clicks shortcut). Requires that the shortcut has an 'id' option set. Use as "runApp(ID, args)". 
+- runApp: Runs an app (clicks shortcut). Requires that the shortcut has an 'id' option set. Use as "runApp(ID, args)".
           Args will be added to the shortcut object. It can be accessed from a popup by using POPUP.options.desktopShortcut.ARG.
 
 Notes:
@@ -49,7 +49,7 @@ function DesktopCreator(){
 DesktopCreator.prototype.init = function(_options){
 	this.options = _options;
 	var t = this;
-	
+
 	if(typeof(this.options.elementRef) === "string")
 		this.element = $("#" + this.options.elementRef);
 	else if(typeof(this.options.elementRef) === "object")
@@ -58,19 +58,19 @@ DesktopCreator.prototype.init = function(_options){
 		this.element = $("<div></div>");
 		$("body").append(this.element);
 	}
-	
+
 	if(!this.isNested){
 		$(document).keydown(function(e) {
 			if($("input:focus,textarea:focus").length > 0)
 				return;
-				
-			if(!e.altKey && !e.ctrlKey && !e.shiftKey 
+
+			if(!e.altKey && !e.ctrlKey && !e.shiftKey
 				&& (	   (e.keyCode >= 65 && e.keyCode <= 90) //a-z
 						|| (e.keyCode >= 48 && e.keyCode <= 57) //0-9
 						|| (e.keyCode == 192 || e.keyCode == 222 || e.keyCode == 221) //ae, oe, aa
 						|| e.keyCode == 32 //space
 					))
-			{ 
+			{
 				var c = String.fromCharCode(e.keyCode).toLowerCase();
 				if($(".dcsearchbox").is(":visible")){
 					var searchBox = $(".dcsearchbox");
@@ -125,7 +125,7 @@ DesktopCreator.prototype.init = function(_options){
 			}
 		});
 	}
-	
+
 	$(document).keydown(function (e) {
 		if (e.which === 8 && $("input:focus").length < 1 && $("textarea:focus").length < 1) { //backspace
 			return false;
@@ -139,10 +139,10 @@ DesktopCreator.prototype.show = function(callback){
 	var t = this;
 
 	this.options.desktopShortcuts = this.options.desktopShortcuts.sort(function(s1, s2){return s1.title > s2.title ? 1 : -1;});
-	
+
 	for(var i = 0; i < this.options.desktopShortcuts.length; i++){
 		var cur = this.options.desktopShortcuts[i];
-		
+
 		if(cur.visible === false)
 			continue;
 
@@ -158,28 +158,28 @@ DesktopCreator.prototype.show = function(callback){
 		else
 			icon.prop("src", cur.icon);
 		icon.prop("title", cur.title);
-		
+
 		var txt = $("<p></p>");
 		txt.html(cur.title);
-		
+
 		shortcut.append(icon);
 		shortcut.append(txt);
-		
+
 		shortcut.data("shortcut", cur);
 		shortcut.data("desktop", t);
-		
+
 		if(cur.isFolder)
 			shortcut.addClass("dcfolder");
-	
+
 		shortcut.attr("tabindex", i+2);
-	
+
 		icon.click(this.shortcutClicked);
 		txt.click(this.shortcutClicked);
 		shortcut.click(function(e){
-			if($(e.target).hasClass("dcshortcut") && $(e.target).is($(this))) 
+			if($(e.target).hasClass("dcshortcut") && $(e.target).is($(this)))
 				t.shortcutClicked.call(this);
 		});
-		
+
 		this.element.append(shortcut);
 	}
 
@@ -195,6 +195,7 @@ DesktopCreator.prototype.show = function(callback){
 }
 
 DesktopCreator.prototype.runApp = function(id, args){
+  var t = this;
 	this.element.find(".dcshortcut").each(function(){
 		var c = $(this).data("shortcut");
 		if(c.id == id){
@@ -205,17 +206,17 @@ DesktopCreator.prototype.runApp = function(id, args){
 }
 
 DesktopCreator.prototype.shortcutClicked = function(args){
-	var folder = $(this).hasClass("dcshortcut") ? $(this) : 
+	var folder = $(this).hasClass("dcshortcut") ? $(this) :
 						$(this).parent().hasClass("dcshortcut") ? $(this).parent() : $(this);
 	var c = folder.data("shortcut");
 	var t = folder.data("desktop");
-			
+
 	if(args !== undefined){
-		c = $.extend({}, c, args);
+		c = $.extend(true, {}, c, args);
 	}
-			
+
 	if(c.isFolder){
-		
+
 		if(folder.hasClass("dcfolderexpandedd")){
 			folder.find("img").show();
 			folder.find(".dcfoldercontent").remove();
@@ -224,22 +225,22 @@ DesktopCreator.prototype.shortcutClicked = function(args){
 			folder.removeAttr("tabindex");
 			folder.find("img").hide();
 			var folderContent = $("<div class='dcfoldercontent'></div>");
-			
+
 			var desktop = new DesktopCreator();
 			desktop.isNested = true;
 			desktop.init({elementRef: folderContent, desktopShortcuts: c.content});
 			desktop.show();
-		
+
 			folder.addClass("dcfolderexpandedd");
 			folder.append(folderContent);
 			if(t.element.find("div.dcshortcut:visible:focus").length > 0);
 				folder.find(".dcshortcut:first").focus();
 		}
-		
+
 	} else {
 		if(typeof(c.onClick) === "function")
 			c.onClick.call(c);
-			
+
 		if(c.popup !== undefined){
 			var pc = new PopupCreator();
 			var pcOptions = jQuery.extend(true, {desktop: t, desktopShortcut: c}, c.popup)
@@ -248,9 +249,11 @@ DesktopCreator.prototype.shortcutClicked = function(args){
 			pc.init(pcOptions);
 			pc.show();
 		}
-		
+
 		if(c.gotoURL !== undefined)
 			window.location = c.gotoURL;
+    if(c.openURL !== undefined)
+			window.open(c.openURL,'_blank');
 	}
 	t.filter.call(t);
 }
@@ -264,8 +267,8 @@ DesktopCreator.prototype.filter = function(filter){
 			$(this).removeAttr("tabindex");
 		}
 		curTabIdx++;
-	
-		if(filter !== undefined && filter !== "" 
+
+		if(filter !== undefined && filter !== ""
 				&& $(this).data("shortcut").title.toLowerCase().indexOf(filter.toLowerCase()) < 0
 				&& (!$(this).data("shortcut").isFolder || !$(this).hasClass("dcfolderexpandedd")))
 			$(this).hide();
