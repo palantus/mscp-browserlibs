@@ -392,7 +392,7 @@ PopupCreator.prototype.afterShow = function(callback){
 PopupCreator.prototype.fixSizing = function(){
   if(this.element === undefined || this.element == null)
     return;
-    
+
 	var title = this.element.find(".pctitle");
 	var buttons = this.element.find(".pctopctlbtns");
 
@@ -671,18 +671,20 @@ PopupCreator.prototype.close = function(){
 	if(t.minimizedElement)
 		t.minimizedElement.remove();
 
-	this.element.fadeOut(100, function(){
-		if(t.options.hideOnClose === true){
-			t.isHidden = true;
-		} else {
-			t.element.remove();
-			t.element = undefined;
-			t.contentObjects = undefined;
-		}
+  if(this.element !== undefined){
+  	this.element.fadeOut(100, function(){
+  		if(t.options.hideOnClose === true){
+  			t.isHidden = true;
+  		} else {
+  			t.element.remove();
+  			t.element = undefined;
+  			t.contentObjects = undefined;
+  		}
 
-		if(typeof(t.options.onClose) === "function")
-			t.options.onClose.call(t);
-	});
+  		if(typeof(t.options.onClose) === "function")
+  			t.options.onClose.call(t);
+  	});
+  }
 	if(this.options.modal === true)
 		$("body").find(".pcoverlay").fadeOut(100);
 }
