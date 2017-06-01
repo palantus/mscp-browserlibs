@@ -35,7 +35,7 @@ function FieldEdit(language){
 						}
 }
 
-FieldEdit.prototype.init = function(_options){
+FieldEdit.prototype.init = async function(_options){
 	this.options = _options;
 	var t = this;
 
@@ -53,9 +53,12 @@ FieldEdit.prototype.init = function(_options){
 	this.element.data("fe", this);
 
 	if(typeof(this.options.values) === "function"){
-		this.options.values.call(this, function(values){
+    let vals = await this.options.values(this, function(values){
 			t.options.values = values;
 		});
+		
+		if(vals)
+			t.options.values = vals;
 	}
 
 	return this;
