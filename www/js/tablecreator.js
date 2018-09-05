@@ -637,17 +637,16 @@ TableCreator.prototype.toggleDownloadPopup = function(){
 		list.empty();
 
 		var item = $('<tr class="enabled"><td><a href="" download="data.csv">CSV</a></td></tr>');
-		//<a href="data:application/octet-stream,field1%2Cfield2%0Afoo%2Cbar%0Agoo%2Cgai%0A" download="txt.csv">CSV Octet</a>
 
 		let csvData = '';
 		$("#" + this.options.elementId + " .tctable tr").each((trIdx, tr) => {
 			$(tr).find("td").each((tdIdx, td) => {
-				csvData += (tdIdx > 0 ? "%2C" : "") + $(td).text()
+				csvData += (tdIdx > 0 ? "," : "") + $(td).text()
 			})
-			csvData += "%0A"
+			csvData += "\n"
 		})
 
-		item.find("a").attr("href", "data:application/octet-stream," + csvData);
+		item.find("a").attr("href", "data:application/octet-stream," + encodeURI(csvData));
 
 		list.append(item);
 	}
