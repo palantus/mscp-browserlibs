@@ -641,7 +641,7 @@ TableCreator.prototype.toggleDownloadPopup = function(){
 		let csvData = '';
 		$("#" + this.options.elementId + " .tctable tr").each((trIdx, tr) => {
 			$(tr).find("td").each((tdIdx, td) => {
-				csvData += (tdIdx > 0 ? "," : "") + $(td).text()
+				csvData += (tdIdx > 0 ? ";" : "") + $(td).text().replace(/;/g, ",")
 			})
 			csvData += "\n"
 		})
