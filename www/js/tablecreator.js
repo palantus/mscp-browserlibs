@@ -277,16 +277,16 @@ TableCreator.prototype.draw = function(callback){
 			topRightHeader.append(refreshButton);
 		}
 
-		if(t.options.showFieldsSelector === true){
-			var fieldsButton = $("<button></button>", {html: this.label("choosefields")});
-			fieldsButton.click(function(){t.toggleFieldsPopup();});
-			topRightHeader.append(fieldsButton);
-		}
-
 		if(t.options.showDownloadButton !== false){
 			var downloadButton = $("<button></button>", {html: this.label("download")});
 			downloadButton.click(function(){t.toggleDownloadPopup();});
 			topRightHeader.append(downloadButton);
+		}
+
+		if(t.options.showFieldsSelector === true){
+			var fieldsButton = $("<button></button>", {html: this.label("choosefields")});
+			fieldsButton.click(function(){t.toggleFieldsPopup();});
+			topRightHeader.append(fieldsButton);
 		}
 
 		var popup = $("<div class='tcfieldspopup tcpopup'><table></table></div>");
@@ -636,9 +636,10 @@ TableCreator.prototype.toggleDownloadPopup = function(){
 		var list = popup.find("table");
 		list.empty();
 
+		//CSV
 		var item = $('<tr class="enabled"><td><a href="" download="data.csv">CSV</a></td></tr>');
 
-		let csvData = '';
+  	let csvData = '';
 		$("#" + this.options.elementId + " .tctable tr").each((trIdx, tr) => {
 			$(tr).find("td").each((tdIdx, td) => {
 				csvData += (tdIdx > 0 ? ";" : "") + $(td).text().replace(/;/g, ",")
@@ -647,8 +648,17 @@ TableCreator.prototype.toggleDownloadPopup = function(){
 		})
 
 		item.find("a").attr("href", "data:application/octet-stream," + encodeURI(csvData));
-
 		list.append(item);
+
+		//Image
+		if(typeof html2canvas === "function"){
+			item = $('<tr class="enabled"><td><a href="" download="image.png">PNG</a></td></tr>');
+			html2canvas($("#" + this.options.elementId + " .tctable")[0]).then(canvas => {
+					let dataUrl = canvas.toDataURL("image/png");
+					item.find("a").attr("href", dataUrl);
+			});
+			list.append(item);
+		}
 	}
 
 	popup.toggle();
