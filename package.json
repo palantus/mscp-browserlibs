@@ -1,6 +1,6 @@
 {
 	"name": "mscp-browserlibs",
-	"version": "1.0.8",
+	"version": "1.0.12",
 	"main" : "main.js",
   "repository" : "palantus/mscp-browserlibs",
   "License" : "MIT",
