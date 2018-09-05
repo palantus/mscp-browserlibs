@@ -35,7 +35,7 @@ span.tcleft{left: 5px; position: absolute;}
 span.tcright{right: 5px; position: absolute;}
 
 /* Fix parent from collapsing when using float: left */
-div.tcfooter:after , div.tcheader:after {content: " "; display: block; height: 0; clear: both;} 
+div.tcfooter:after , div.tcheader:after {content: " "; display: block; height: 0; clear: both;}
 button.tcbutton, div.tcfooter button, div.tcheader button{background-color:#FFF;border:1px solid #aaa;padding-bottom:4px;padding-left: 10px;padding-right: 10px; padding-top: 4px; margin: 0px; border-radius: 4px 4px 4px 4px;-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;}
 button.tcbutton:hover, div.tcfooter button:hover, div.tcheader button:hover{background-color:#f5f5f5; cursor: pointer;}
 
@@ -46,9 +46,9 @@ table.tctable thead th{
 	color: #333333;
 	border-bottom: 1px solid gray;
 	cursor: pointer;
-	-moz-user-select: none; 
-	-webkit-user-select: none; 
-	-ms-user-select:none; 
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
 	user-select:none;
 }
 
@@ -89,8 +89,8 @@ div.tcpopup{
 	display: none;
 	right: 0px;
 	text-align: left;
-	background-color: #eeeeee; 
-	padding: 5px; 
+	background-color: #eeeeee;
+	padding: 5px;
 	border: 1px solid black;
 	margin-top: 3px;
 	-moz-box-shadow: -1px 3px 3px #aaa;
@@ -113,9 +113,17 @@ div.tcfieldspopup table{margin: 0px; border-spacing: 0px;}
 div.tcfieldspopup table tr td:first-child{width: 20px;}
 div.tcfieldspopup table tr.enabled td:first-child:after{content: "✔";}
 
+div.tcdownloadpopup {padding: 5px !important;}
+div.tcdownloadpopup tr td{border: 1px solid transparent; border-left: none; border-right: none; padding: 2px;}
+div.tcdownloadpopup tr:hover{cursor: pointer;}
+div.tcdownloadpopup tr:hover td{border-top: 1px solid gray; border-bottom: 1px solid gray; }
+div.tcdownloadpopup tr{padding-left: 10px; padding-right: 10px;}
+div.tcdownloadpopup table{margin: 0px; border-spacing: 0px;}
+div.tcdownloadpopup a{text-decoration: none; color: black;}
+
 div.tcrecordpopup h3 {width: 100%; text-align: center;}
 div.tcrecordpopup table{}
-div.tcrecordpopup table input, 
+div.tcrecordpopup table input,
 div.tcrecordpopup table select,
 div.tcrecordpopup table textarea{width: 100%;}
 div.tcrecordpopup button {margin-top: 10px; margin-right: 3px;}
@@ -131,8 +139,8 @@ td.tceditcell{text-align: right; cursor: pointer;}
 td.tceditcell img{height: 15px;}
 
 div.tcloading{
-	position: relative; 
-	left: 50%; 
+	position: relative;
+	left: 50%;
 	display: none;
 	width: 100px;
 	margin-left: -50px;
@@ -142,9 +150,9 @@ div.tcloading{
 	text-align: center;
 	background-color: rgba(5, 5, 5,0.6);
 	color: white;
-	-moz-user-select: none; 
-	-webkit-user-select: none; 
-	-ms-user-select:none; 
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
 	user-select:none;
 	pointer-events:none;
 }

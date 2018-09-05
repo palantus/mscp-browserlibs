@@ -93,7 +93,8 @@ function TableCreator(language){
 								invaliddata: "Ugyldig data",
 								deleteconfirm: "Er du sikker på at du vil slette denne post?",
 								show: "Vis",
-								"new": "Ny"
+								"new": "Ny",
+								"download": "Hent"
 							},
 							en: {
 								save: "Save",
@@ -111,7 +112,8 @@ function TableCreator(language){
 								invaliddata: "Invalid data",
 								deleteconfirm: "Are you sure that you want to delete this record?",
 								show: "Show",
-								"new": "New"
+								"new": "New",
+								"download": "Download"
 							}
 						}
 }
@@ -281,8 +283,17 @@ TableCreator.prototype.draw = function(callback){
 			topRightHeader.append(fieldsButton);
 		}
 
+		if(t.options.showDownloadButton !== false){
+			var downloadButton = $("<button></button>", {html: this.label("download")});
+			downloadButton.click(function(){t.toggleDownloadPopup();});
+			topRightHeader.append(downloadButton);
+		}
+
 		var popup = $("<div class='tcfieldspopup tcpopup'><table></table></div>");
 		topRightHeader.append(popup);
+
+		var popupDownload = $("<div class='tcdownloadpopup tcpopup'><table></table></div>");
+		topRightHeader.append(popupDownload);
 
 		var newRecordPopup = $("<div class='tcrecordpopup tcpopup'></div>");
 		topRightHeader.append(newRecordPopup);
@@ -595,6 +606,50 @@ TableCreator.prototype.toggleFieldsPopup = function(){
 				list.append(item);
 			}
 		}
+	}
+
+	popup.toggle();
+
+	var t = this;
+	var fieldSelectMouseOutTimer = setTimeout(function(){
+		if(popup != null)
+			popup.fadeOut("fast");
+	}, 1000);
+
+	popup.mouseleave(function(){
+		fieldSelectMouseOutTimer = setTimeout(function(){
+			if(popup != null)
+				popup.hide();
+		}, 300);
+	});
+
+	popup.mouseenter(function(){
+		clearTimeout(fieldSelectMouseOutTimer);
+	});
+}
+
+TableCreator.prototype.toggleDownloadPopup = function(){
+	var popup = $("#" + this.options.elementId + " div.tcdownloadpopup");
+	if(!popup.is(":visible")){
+		$("#" + this.options.elementId + " div.tcpopup").hide();
+
+		var list = popup.find("table");
+		list.empty();
+
+		var item = $('<tr class="enabled"><td><a href="" download="data.csv">CSV</a></td></tr>');
+		//<a href="data:application/octet-stream,field1%2Cfield2%0Afoo%2Cbar%0Agoo%2Cgai%0A" download="txt.csv">CSV Octet</a>
+
+		let csvData = '';
+		$("#" + this.options.elementId + " .tctable tr").each((trIdx, tr) => {
+			$(tr).find("td").each((tdIdx, td) => {
+				csvData += (tdIdx > 0 ? "%2C" : "") + $(td).text()
+			})
+			csvData += "%0A"
+		})
+
+		item.find("a").attr("href", "data:application/octet-stream," + csvData);
+
+		list.append(item);
 	}
 
 	popup.toggle();
