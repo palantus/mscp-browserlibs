@@ -113,7 +113,7 @@ PopupCreator.prototype.init = function(_options){
 
 	if(!clickHandlerRegisteredForTableCreator){
 		$(document).click(function(e){
-			lastDocumentClickLoaction = {x: e.clientX, y: e.clientY};
+			lastDocumentClickLoaction = {x: e.pageX, y: e.pageY};
 		});
 		clickHandlerRegisteredForTableCreator = true;
 	}
@@ -461,8 +461,8 @@ PopupCreator.prototype.fixPosition = function(){
 		this.element.css("top", ($(window).height()/2) - (this.element.height()/2));
 
 	if(lastDocumentClickLoaction !== undefined && this.options.openUnderCursor !== false && this.cachedSetup.x === undefined && !this.options.centerH && !this.options.centerV){
-		var x = Math.min($(window).width()  - this.element.width(), 	Math.max(0, lastDocumentClickLoaction.x - (this.element.width()/2)));
-		var y = Math.min($(window).height() - this.element.height(), 	Math.max(0, lastDocumentClickLoaction.y - (Math.min(50, this.element.height()/3))));
+		var x = Math.min($(document).width()  - this.element.width(), 	Math.max(0, lastDocumentClickLoaction.x - (this.element.width()/2)));
+		var y = Math.min($(document).height() - this.element.height(), 	Math.max(0, lastDocumentClickLoaction.y - (Math.min(50, this.element.height()/3))));
 		this.element.css("left", x);
 		this.element.css("top", y);
 	}
