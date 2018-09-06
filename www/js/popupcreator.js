@@ -44,8 +44,11 @@ Content can be defined as either:
 
 */
 
-var clickHandlerRegisteredForTableCreator = false;
 var lastDocumentClickLoaction = {x:0,y:0};
+
+$(document).click(function(e){
+	lastDocumentClickLoaction = {x: e.pageX, y: e.pageY};
+});
 
 function PopupCreator(){
 	this.type = "TableCreator";
@@ -109,13 +112,6 @@ PopupCreator.prototype.init = function(_options){
 				t.close();
 			});
 		}
-	}
-
-	if(!clickHandlerRegisteredForTableCreator){
-		$(document).click(function(e){
-			lastDocumentClickLoaction = {x: e.pageX, y: e.pageY};
-		});
-		clickHandlerRegisteredForTableCreator = true;
 	}
 
 	return this;
