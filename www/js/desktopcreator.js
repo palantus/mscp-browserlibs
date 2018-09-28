@@ -299,7 +299,7 @@ DesktopCreator.popupCenter = function(url, title, w, h, specs) {
 
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
-    var newWindow = window.open(url, title, specs + 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    var newWindow = window.open(url, title, (specs||"") + 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 
     // Puts focus on the newWindow
     if (window.focus) {
