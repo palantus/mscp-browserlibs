@@ -20,8 +20,13 @@ desktop.show();
 
 options:
 - gotoURL
-- openURL
-- windowSpecs (specs for openURL window - eg.: "toolbar=no,scrollbars=no,resizable=yes,top=500,left=500,width=400,height=400")
+- openURL - url or the following object:
+					{
+						specs: specs for openURL window - eg.: "toolbar=no,scrollbars=no,resizable=yes,top=500,left=500,width=400,height=400"
+						center: true/false (requires width and height)
+						width: width in pixels (only for center - otherwise use specs)
+						height: height in pixels(only for center - otherwise use specs)
+				 	}
 
 shortcut options:
 - title
@@ -254,8 +259,13 @@ DesktopCreator.prototype.shortcutClicked = function(args){
 
 		if(c.gotoURL !== undefined)
 			window.location = c.gotoURL;
-    if(c.openURL !== undefined)
-			window.open(c.openURL,'_blank', c.windowSpecs !== undefined ? c.windowSpecs : null);
+    if(c.openURL !== undefined){
+			let woptions = typeof c.openURL == "string" ? {url: c.openURL} : c.openURL;
+			if(woptions.center === true)
+				DesktopCreator.popupCenter(woptions.url, c.title || "Popup", woptions.width || 500, woptions.height || 500)
+			else
+				window.open(woptions.url,'_blank', woptions.specs);
+		}
 	}
 	t.filter.call(t);
 }
@@ -277,4 +287,22 @@ DesktopCreator.prototype.filter = function(filter){
 		else
 			$(this).show();
 	});
+}
+
+DesktopCreator.popupCenter = function(url, title, w, h) {
+    // Fixes dual-screen position                         Most browsers      Firefox
+    var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+    var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+    var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+    var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+    var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+    var top = ((height / 2) - (h / 2)) + dualScreenTop;
+    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+
+    // Puts focus on the newWindow
+    if (window.focus) {
+        newWindow.focus();
+    }
 }
