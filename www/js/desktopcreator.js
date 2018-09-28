@@ -262,7 +262,7 @@ DesktopCreator.prototype.shortcutClicked = function(args){
     if(c.openURL !== undefined){
 			let woptions = typeof c.openURL == "string" ? {url: c.openURL} : c.openURL;
 			if(woptions.center === true)
-				DesktopCreator.popupCenter(woptions.url, c.title || "Popup", woptions.width || 500, woptions.height || 500)
+				DesktopCreator.popupCenter(woptions.url, c.title || "Popup", woptions.width || 500, woptions.height || 500, woptions.specs)
 			else
 				window.open(woptions.url,'_blank', woptions.specs);
 		}
@@ -289,7 +289,7 @@ DesktopCreator.prototype.filter = function(filter){
 	});
 }
 
-DesktopCreator.popupCenter = function(url, title, w, h) {
+DesktopCreator.popupCenter = function(url, title, w, h, specs) {
     // Fixes dual-screen position                         Most browsers      Firefox
     var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
     var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
@@ -299,7 +299,7 @@ DesktopCreator.popupCenter = function(url, title, w, h) {
 
     var left = ((width / 2) - (w / 2)) + dualScreenLeft;
     var top = ((height / 2) - (h / 2)) + dualScreenTop;
-    var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+    var newWindow = window.open(url, title, specs + 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
 
     // Puts focus on the newWindow
     if (window.focus) {
