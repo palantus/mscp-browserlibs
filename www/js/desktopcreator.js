@@ -20,6 +20,8 @@ desktop.show();
 
 options:
 - gotoURL
+- openURL
+- windowSpecs (specs for openURL window - eg.: "toolbar=no,scrollbars=no,resizable=yes,top=500,left=500,width=400,height=400")
 
 shortcut options:
 - title
@@ -253,7 +255,7 @@ DesktopCreator.prototype.shortcutClicked = function(args){
 		if(c.gotoURL !== undefined)
 			window.location = c.gotoURL;
     if(c.openURL !== undefined)
-			window.open(c.openURL,'_blank');
+			window.open(c.openURL,'_blank', c.windowSpecs !== undefined ? c.windowSpecs : null);
 	}
 	t.filter.call(t);
 }
