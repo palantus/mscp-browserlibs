@@ -6,7 +6,7 @@ popupCreator.init({
 						tabs:
 							[
 								{title: "Tab 1", content: "<h1>Tab 1 content</h1>"},
-								{title: "Tab 2", content: tableCreator, onShow: function(element, idx){}}
+								{title: "Tab 2", content: tableCreator, onShow: function(element, idx, contentNode){}}
 							]
 					});
 popupCreator.show(callback);
@@ -539,12 +539,12 @@ PopupCreator.prototype.makeResizable = function(){
 
 PopupCreator.prototype.setTab = function(tabNum, callback){
 	var t = this;
-	var onComplete = function(){
+	var onComplete = function(cn){
 		t.element.find("button.pctabtitle").removeClass("pctabtitlecurrent");
 		t.element.find("button.pctabtitle:nth-child(" + (tabNum+1) + ")").addClass("pctabtitlecurrent");
 
 		if(t.options.tabs !== undefined && typeof(t.options.tabs[tabNum].onShow) === "function")
-			t.options.tabs[tabNum].onShow.call(t, t.options.tabs[tabNum].content, tabNum);
+			t.options.tabs[tabNum].onShow.call(t, t.options.tabs[tabNum].content, tabNum, cn);
 
 		if(typeof(callback) === "function")
 			callback.call(t);
@@ -557,7 +557,7 @@ PopupCreator.prototype.setTab = function(tabNum, callback){
 	if(newTabExisting.length > 0) {
 		newTabExisting.show();
 		this.fixSizing();
-		onComplete();
+		onComplete(newTabExisting);
 	} else {
 		var contentNode = $("<div class='pccontent pcinner'></div>");
 		contentNode.attr("data-tabnum", ""+tabNum);
@@ -566,7 +566,7 @@ PopupCreator.prototype.setTab = function(tabNum, callback){
 			contentNode.css(this.options.tabs[tabNum].style);
 
 		this.appendContent(contentNode, tabNum, function(){
-			onComplete();
+			onComplete(contentNode);
 		});
 	}
 }
