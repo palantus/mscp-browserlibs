@@ -14,6 +14,10 @@
 		text: toast text
 		title: toast title (optional)
 		showClose: boolean to indicate wether a close button is shown
+
+	Methods:
+		kill
+		body
 */
 
 class Toaster{
@@ -118,6 +122,10 @@ class Toast{
 
 	tick(){
 
+	}
+
+	kill(){
+		Toaster.instance.kill(this)
 	}
 }
 
