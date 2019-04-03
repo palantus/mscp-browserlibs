@@ -20,6 +20,7 @@ div.toast{
 	max-width: 250px;
 	margin-top: 5px;
 	min-width: 150px;
+	white-space: normal;
 }
 
 div.toast.clickable{
