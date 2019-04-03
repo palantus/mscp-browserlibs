@@ -7,6 +7,8 @@
 		toast({timeout: 3, text: "hello"})
 		toast({title: "Toast title", timeout: null}, "Notification with title")
 
+		See toast.html under test for other usages (like progressbars)
+
 	Options:
 		timeout: Timeout in seconds
 		text: toast text
@@ -146,7 +148,7 @@ class ToastProgress extends Toast{
 	}
 
 	progress(progress){
-		this.updateProgress()
+		this.options.progress = progress
 	}
 
 	tick(){
@@ -159,12 +161,20 @@ class ToastProgress extends Toast{
 		let now = new Date().getTime() - this.startTime;
 		let then = this.options.eta - this.startTime;
 		if(!this.done){
-			let pct = Math.min(100, parseInt((now / then) * 100));
-			let msLeft = Math.max(0, this.options.eta - new Date().getTime())
+			if(!isNaN(this.options.progress) || this.options.eta === undefined){
+				let pct = this.options.progress || 0;
 
-			this.element.find(".progress-bar span").css("width", `${pct}%`)
-			this.element.find(".progress-bar div").html(msLeft > 0 ? this.millisecondsToStr(msLeft) : "Done")
-			this.done = msLeft <= 0;
+				this.element.find(".progress-bar span").css("width", `${pct}%`)
+				this.element.find(".progress-bar div").html(pct < 100 ? `${pct}%` : "Done")
+				this.done = pct >= 100;
+			} else {
+				let pct = Math.min(100, parseInt((now / then) * 100));
+				let msLeft = Math.max(0, this.options.eta - new Date().getTime())
+
+				this.element.find(".progress-bar span").css("width", `${pct}%`)
+				this.element.find(".progress-bar div").html(msLeft > 0 ? this.millisecondsToStr(msLeft) : "Done")
+				this.done = msLeft <= 0;
+			}
 		}
 	}
 
