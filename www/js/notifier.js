@@ -42,6 +42,10 @@ Notifier.prototype.show = function(text, timeout){
 	if($("div.tbcbar").length > 0)
 		this.element.css("transform", "translate(0px,-30px)");
 
+	if($("div.notifier").length > 0){
+		this.element.css("transform", `translate(0px,-${$("div.notifier").length * 50}px)`);
+	}
+
 	$("body").append(this.element);
 	this.element.fadeIn("fast");
 
@@ -49,7 +53,7 @@ Notifier.prototype.show = function(text, timeout){
 		t.element.fadeOut("fast", function(){
 			t.element.remove();
 		});
-	}, isNaN(this.options.timeout) ? 2000 : this.options.timeout);
+	}, isNaN(this.options.timeout) ? 5000 : this.options.timeout);
 }
 
 var notify = (message, timeout) => new Notifier().show(message, timeout);

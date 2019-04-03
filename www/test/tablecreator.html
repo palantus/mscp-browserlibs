@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+	<title>AHK Productions</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8,IE=edge" />
+
+	<link rel="stylesheet" type="text/css" href="/css/tablecreator.css">
+	<link rel="stylesheet" type="text/css" href="/css/rightclickmenu.css">
+	<link rel="stylesheet" type="text/css" href="/css/popupcreator.css">
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/rightclickmenu.js"></script>
+	<script src="/js/popupcreator.js"></script>
+	<script src="/js/html2canvas.min.js"></script>
+	<script src="/js/tablecreator.js"></script>
+</head>
+<body>
+  <a href="data:application/octet-stream,field1%2Cfield2%0Afoo%2Cbar%0Agoo%2Cgai%0A" download="txt.csv">CSV Octet</a>
+  <div id="tab"></div>
+	<script>
+  var tcOptions = {
+      language: "en",
+      typeId: "Test",
+      linesPerPage: 10,
+      showRecordsPerPageSelector: true,
+      showFieldsSelector: true,
+      showDownloadButton: true,
+      columns: [
+        {title: "Id", dataKey: "id"},
+        {title: "Title", dataKey: "title"}
+      ],
+      dataSource: async function(callback){
+        callback([{id: 1, title: "Hello 1"}, {id: 2, title: "Hello 2;33"}]);
+      },
+      recordRightClickMenu: {actions: [
+        {title: "Right click action", onClick: async function(a, r, cb){
+          r.title += "+";
+          cb();
+        }}
+      ]}
+    };
+
+    var tc = new TableCreator();
+    tcOptions.elementId = "tab";
+    tc.init(tcOptions);
+    tc.draw();
+  </script>
+</body>
+</html>

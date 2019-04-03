@@ -1,6 +1,6 @@
 div.notifier{
-	position: fixed; 
-	right: 20px; 
+	position: fixed;
+	right: 20px;
 	bottom: 20px;
 	display: none;
 	padding: 10px;
@@ -13,9 +13,9 @@ div.notifier{
 	background-color: rgba(5, 5, 5,0.6);
 	color: white;
 	max-width: 250px;
-	-moz-user-select: none; 
-	-webkit-user-select: none; 
-	-ms-user-select:none; 
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
 	user-select:none;
 	pointer-events:none;
 	/*
