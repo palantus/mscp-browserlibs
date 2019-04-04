@@ -118,6 +118,7 @@ class Toast{
 
 	body(text){
 		this.element.find(".body").html(text)
+		return this;
 	}
 
 	tick(){
@@ -126,6 +127,7 @@ class Toast{
 
 	kill(){
 		Toaster.instance.kill(this)
+		return this;
 	}
 }
 
@@ -153,10 +155,12 @@ class ToastProgress extends Toast{
 
 	eta(eta){
 		this.options.eta = eta;
+		return this;
 	}
 
 	progress(progress){
 		this.options.progress = progress
+		return this;
 	}
 
 	tick(){
@@ -165,25 +169,31 @@ class ToastProgress extends Toast{
 	}
 
 	updateProgress(){
+		if(this.done) return;
 		if(this.options.eta <= 0) return;
+
 		let now = new Date().getTime() - this.startTime;
 		let then = this.options.eta - this.startTime;
-		if(!this.done){
-			if(!isNaN(this.options.progress) || this.options.eta === undefined){
-				let pct = this.options.progress || 0;
+		if(!isNaN(this.options.progress) || this.options.eta === undefined){
+			let pct = this.options.progress || 0;
 
-				this.element.find(".progress-bar span").css("width", `${pct}%`)
-				this.element.find(".progress-bar div").html(pct < 100 ? `${pct}%` : "completed")
-				this.done = pct >= 100;
-			} else {
-				let pct = Math.min(100, parseInt((now / then) * 100));
-				let msLeft = Math.max(0, this.options.eta - new Date().getTime())
+			this.element.find(".progress-bar span").css("width", `${pct}%`)
+			this.element.find(".progress-bar div").html(pct < 100 ? `${pct}%` : "completed")
+			this.done = pct >= 100;
+		} else {
+			let pct = Math.min(100, parseInt((now / then) * 100));
+			let msLeft = Math.max(0, this.options.eta - new Date().getTime())
 
-				this.element.find(".progress-bar span").css("width", `${pct}%`)
-				this.element.find(".progress-bar div").html(msLeft > 0 ? this.millisecondsToStr(msLeft) : "completed")
-				this.done = msLeft <= 0;
-			}
+			this.element.find(".progress-bar span").css("width", `${pct}%`)
+			this.element.find(".progress-bar div").html(this.millisecondsToStr(msLeft))
 		}
+	}
+
+	finished(){
+		this.done = true;
+		this.element.find(".progress-bar span").css("width", `100%`)
+		this.element.find(".progress-bar div").html("completed")
+		return this;
 	}
 
 	millisecondsToStr (milliseconds) {
