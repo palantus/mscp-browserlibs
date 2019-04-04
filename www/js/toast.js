@@ -32,9 +32,9 @@ class Toaster{
 	}
 
 	showToast(toast){
-		let existingToastIdx = this.notifications.findIndex((n) => n.id === toast.id)
-		if(existingToastIdx >= 0)
-			return this.notification[existingToastIdx];
+		let existingToast = this.findId(toast.id)
+		if(existingToast)
+			return existingToast;
 
 		this.notifications.push(toast)
 		this.element.prepend(toast.element);
@@ -61,6 +61,10 @@ class Toaster{
 			toast.element.fadeOut("fast");
 			this.notifications.splice(idx, 1)
 		}
+	}
+
+	findId(id){
+		return this.notifications.find((n) => n.id === id) || null
 	}
 }
 
