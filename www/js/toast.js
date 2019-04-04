@@ -64,6 +64,7 @@ class Toaster{
 	}
 
 	static findId(id){
+		if(!Toaster.instance) return null;
 		return Toaster.instance.notifications.find((n) => n.id === id) || null
 	}
 }
