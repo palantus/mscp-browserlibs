@@ -32,7 +32,7 @@ class Toaster{
 	}
 
 	showToast(toast){
-		let existingToast = this.findId(toast.id)
+		let existingToast = Toaster.findId(toast.id)
 		if(existingToast)
 			return existingToast;
 
@@ -63,8 +63,8 @@ class Toaster{
 		}
 	}
 
-	findId(id){
-		return this.notifications.find((n) => n.id === id) || null
+	static findId(id){
+		return Toaster.instance.notifications.find((n) => n.id === id) || null
 	}
 }
 
