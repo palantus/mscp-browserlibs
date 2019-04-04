@@ -14,6 +14,7 @@
 		text: toast text
 		title: toast title (optional)
 		showClose: boolean to indicate wether a close button is shown
+		uniqueId: any kind of id. When creating new toasts, duplicates are ignored. Find existing toast with Toaster.findId(id)
 
 	Methods:
 		kill
@@ -31,9 +32,14 @@ class Toaster{
 	}
 
 	showToast(toast){
+		let existingToastIdx = this.notifications.findIndex((n) => n.id === toast.id)
+		if(existingToastIdx >= 0)
+			return this.notification[existingToastIdx];
+
 		this.notifications.push(toast)
 		this.element.prepend(toast.element);
 		toast.element.fadeIn("fast");
+		return toast;
 	}
 
 	tick(){
@@ -77,6 +83,7 @@ class Toast{
 
 		let removeAfter = this.options.timeout !== undefined ? this.options.timeout : 5
 		this.timeout = (removeAfter != null && !isNaN(removeAfter)) ? new Date().getTime() + (removeAfter * 1000) : null
+		this.id = this.options.id || this.getNewId()
 	}
 
 	show(){
@@ -105,9 +112,7 @@ class Toast{
 
 		this.element.click(() => this.clicked())
 
-		Toaster.instance.showToast(this)
-
-		return this;
+		return Toaster.instance.showToast(this)
 	}
 
 	clicked(){
@@ -128,6 +133,11 @@ class Toast{
 	kill(){
 		Toaster.instance.kill(this)
 		return this;
+	}
+
+	getNewId() {
+		let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 	}
 }
 
