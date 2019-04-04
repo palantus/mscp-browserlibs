@@ -173,20 +173,21 @@ class ToastProgress extends Toast{
 				let pct = this.options.progress || 0;
 
 				this.element.find(".progress-bar span").css("width", `${pct}%`)
-				this.element.find(".progress-bar div").html(pct < 100 ? `${pct}%` : "Done")
+				this.element.find(".progress-bar div").html(pct < 100 ? `${pct}%` : "completed")
 				this.done = pct >= 100;
 			} else {
 				let pct = Math.min(100, parseInt((now / then) * 100));
 				let msLeft = Math.max(0, this.options.eta - new Date().getTime())
 
 				this.element.find(".progress-bar span").css("width", `${pct}%`)
-				this.element.find(".progress-bar div").html(msLeft > 0 ? this.millisecondsToStr(msLeft) : "Done")
+				this.element.find(".progress-bar div").html(msLeft > 0 ? this.millisecondsToStr(msLeft) : "completed")
 				this.done = msLeft <= 0;
 			}
 		}
 	}
 
 	millisecondsToStr (milliseconds) {
+		/*
     function numberEnding (number) {
         return (number > 1) ? 's' : '';
     }
@@ -214,6 +215,23 @@ class ToastProgress extends Toast{
         return seconds + ' second' + numberEnding(seconds);
     }
     return '<1 second'; //'just now' //or other string you like;
+		*/
+
+		let ret = ""
+    let temp = Math.floor(milliseconds / 1000);
+		let hours = Math.floor((temp %= 86400) / 3600);
+		if(hours)
+			ret += `${hours}h`
+
+    var minutes = Math.floor((temp %= 3600) / 60);
+		if(minutes)
+			ret += `${ret?' ':''}${minutes}m`
+
+    var seconds = temp % 60;
+		if(seconds)
+			ret += `${ret?' ':''}${seconds}s`
+
+		return  ret ? "~" + ret : "< 1s"
 	}
 }
 

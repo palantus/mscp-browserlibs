@@ -29,6 +29,9 @@
 			setTimeout(() => progress2.progress(33), 1000) //Takes longer than expected
 			setTimeout(() => progress2.progress(66), 3000)
 			setTimeout(() => progress2.progress(100), 5000)
+
+
+			let progress3 = toastProgress({body: "Running", title: "VERY long Operation", eta: new Date().getTime() + 50000000})
   </script>
 </body>
 </html>
