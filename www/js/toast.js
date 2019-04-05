@@ -195,6 +195,13 @@ class ToastProgress extends Toast{
 		this.updateProgress();
 	}
 
+	reset(){
+		this.done = false;
+		this.statusMessage = undefined;
+		this.eta = null;
+		this.progress = 0;
+	}
+
 	updateProgress(){
 		if(this.done) return;
 		if(this.options.eta <= 0) return;
