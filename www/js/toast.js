@@ -1,242 +1,242 @@
 "use strict"
 
 /*
-	Usage:
-		toast("Hello")
-		toast({timeout: 3}, "hello")
-		toast({timeout: 3, text: "hello"})
-		toast({title: "Toast title", timeout: null}, "Notification with title")
+  Usage:
+    toast("Hello")
+    toast({timeout: 3}, "hello")
+    toast({timeout: 3, text: "hello"})
+    toast({title: "Toast title", timeout: null}, "Notification with title")
 
-		See toast.html under test for other usages (like progressbars)
+    See toast.html under test for other usages (like progressbars)
 
-	Options:
-		timeout: Timeout in seconds
-		text: toast text
-		title: toast title (optional)
-		showClose: boolean to indicate wether a close button is shown
-		id: any kind of id. When creating new toasts, duplicates are ignored. Find existing toast with Toaster.findId(id)
+  Options:
+    timeout: Timeout in seconds
+    text: toast text
+    title: toast title (optional)
+    showClose: boolean to indicate wether a close button is shown
+    id: any kind of id. When creating new toasts, duplicates are ignored. Find existing toast with Toaster.findId(id)
 
-	Methods:
-		kill
-		body
+  Methods:
+    kill
+    body
 
-	Properties:
-		id: unique id of the toast. Can be set manually in options
-		killed: boolean indicating if the toast has been killed.
+  Properties:
+    id: unique id of the toast. Can be set manually in options
+    killed: boolean indicating if the toast has been killed.
 */
 
 class Toaster{
-	constructor(){
-		this.tickInterval = setInterval(() => this.tick(), 200)
-		this.notifications = []
+  constructor(){
+    this.tickInterval = setInterval(() => this.tick(), 300)
+    this.notifications = []
 
-		this.element = $("<div/>", {"class": "stackoftoasts"})
-		$("body").append(this.element)
-		this.element.show();
-	}
+    this.element = $("<div/>", {"class": "stackoftoasts"})
+    $("body").append(this.element)
+    this.element.show();
+  }
 
-	showToast(toast){
-		let existingToast = Toaster.findId(toast.id)
-		if(existingToast)
-			return existingToast;
+  showToast(toast){
+    let existingToast = Toaster.findId(toast.id)
+    if(existingToast)
+      return existingToast;
 
-		this.notifications.push(toast)
-		this.element.prepend(toast.element);
-		toast.element.fadeIn("fast");
-		return toast;
-	}
+    this.notifications.push(toast)
+    this.element.prepend(toast.element);
+    toast.element.fadeIn("fast");
+    return toast;
+  }
 
-	tick(){
-		for(let i = this.notifications.length - 1; i >= 0; i--){
-			let timeout = this.notifications[i].timeout
-			if(!isNaN(timeout) && timeout > 0 && timeout <= new Date().getTime()){
-				this.kill(this.notifications[i])
-			}
-		}
+  tick(){
+    for(let i = this.notifications.length - 1; i >= 0; i--){
+      let timeout = this.notifications[i].timeout
+      if(!isNaN(timeout) && timeout > 0 && timeout <= new Date().getTime()){
+        this.kill(this.notifications[i])
+      }
+    }
 
-		for(let t of this.notifications){
-			t.tick();
-		}
-	}
+    for(let t of this.notifications){
+      t.tick();
+    }
+  }
 
-	kill(toast){
-		let idx = this.notifications.findIndex((n) => n === toast)
-		if(idx >= 0){
-			toast.killed = true;
-			toast.element.fadeOut("fast", () => toast.element.remove());
-			this.notifications.splice(idx, 1)
-		}
-	}
+  kill(toast){
+    let idx = this.notifications.findIndex((n) => n === toast)
+    if(idx >= 0){
+      toast.killed = true;
+      toast.element.fadeOut("fast", () => toast.element.remove());
+      this.notifications.splice(idx, 1)
+    }
+  }
 
-	static findId(id){
-		if(!Toaster.instance) return null;
-		return Toaster.instance.notifications.find((n) => n.id === id) || null
-	}
+  static findId(id){
+    if(!Toaster.instance) return null;
+    return Toaster.instance.notifications.find((n) => n.id === id) || null
+  }
 }
 
 class Toast{
-	constructor(options, text){
-		if(!Toaster.instance){
-			Toaster.instance = new Toaster();
-		}
+  constructor(options, text){
+    if(!Toaster.instance){
+      Toaster.instance = new Toaster();
+    }
 
-		if(typeof text === "string"){
-			this.options = options;
-			this.options.body = text
-		} else if(typeof options === "string"){
-			this.options = {body: options}
-		} else if(typeof options === "object"){
-			this.options = options
-		} else {
-			this.options = {}
-		}
+    if(typeof text === "string"){
+      this.options = options;
+      this.options.body = text
+    } else if(typeof options === "string"){
+      this.options = {body: options}
+    } else if(typeof options === "object"){
+      this.options = options
+    } else {
+      this.options = {}
+    }
 
-		let removeAfter = this.options.timeout !== undefined ? this.options.timeout : 5
-		this.timeout = (removeAfter != null && !isNaN(removeAfter)) ? new Date().getTime() + (removeAfter * 1000) : null
-		this.id = this.options.id || this.getNewId()
-	}
+    let removeAfter = this.options.timeout !== undefined ? this.options.timeout : 5
+    this.timeout = (removeAfter != null && !isNaN(removeAfter)) ? new Date().getTime() + (removeAfter * 1000) : null
+    this.id = this.options.id || this.getNewId()
+  }
 
-	show(){
-		this.element = $(`
-				<div class="toast">
-					<div class="topbar">
-						<span class="title"></span>
-						<button class="close">×</button>
-					</div>
-					<div class="body"/>
-				</div>
-			`);
-		this.element.hide();
-		this.element.find(".topbar").toggle(!this.timeout || this.options.showClose === true || this.options.title !== undefined)
-		this.element.find(".topbar .close").toggle(!this.timeout || this.options.showClose === true).click(() => Toaster.instance.kill(this))
-		this.element.find(".topbar .title").toggle(this.options.title !== undefined ).html(this.options.title)
+  show(){
+    this.element = $(`
+        <div class="toast">
+          <div class="topbar">
+            <span class="title"></span>
+            <button class="close">×</button>
+          </div>
+          <div class="body"/>
+        </div>
+      `);
+    this.element.hide();
+    this.element.find(".topbar").toggle(!this.timeout || this.options.showClose === true || this.options.title !== undefined)
+    this.element.find(".topbar .close").toggle(!this.timeout || this.options.showClose === true).click(() => Toaster.instance.kill(this))
+    this.element.find(".topbar .title").toggle(this.options.title !== undefined ).html(this.options.title)
 
-		this.element.find(".body").html(this.options.body);
+    this.element.find(".body").html(this.options.body);
 
-		if(typeof this.options.onClick === "functions"){
-			this.element.addClass("clickable")
-		}
+    if(typeof this.options.onClick === "functions"){
+      this.element.addClass("clickable")
+    }
 
-		if($("div.tbcbar").length > 0)
-			this.element.css("transform", "translate(0px,-30px)");
+    if($("div.tbcbar").length > 0)
+      this.element.css("transform", "translate(0px,-30px)");
 
-		this.element.click(() => this.clicked())
+    this.element.click(() => this.clicked())
 
-		return Toaster.instance.showToast(this)
-	}
+    return Toaster.instance.showToast(this)
+  }
 
-	clicked(){
-		if(typeof this.options.onClick === "function"){
-			this.options.onClick.call(this, this)
-		}
-	}
+  clicked(){
+    if(typeof this.options.onClick === "function"){
+      this.options.onClick.call(this, this)
+    }
+  }
 
-	body(text){
-		this.element.find(".body").html(text)
-		return this;
-	}
+  body(text){
+    this.element.find(".body").html(text)
+    return this;
+  }
 
-	tick(){
+  tick(){
 
-	}
+  }
 
-	kill(){
-		Toaster.instance.kill(this)
-		return this;
-	}
+  kill(){
+    Toaster.instance.kill(this)
+    return this;
+  }
 
-	getNewId() {
-		let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-	}
+  getNewId() {
+    let s4 = () => Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
 }
 
 class ToastProgress extends Toast{
 
-	constructor(options, text){
-			super(options, text)
+  constructor(options, text){
+      super(options, text)
 
-			if(this.options.expectedDuration){
-				this.options.eta = new Date().getTime() + this.options.expectedDuration
-			}
-			this.options.showClose = true;
-			this.timeout = null;
-			this.done = false;
-	}
+      if(this.options.expectedDuration){
+        this.options.eta = new Date().getTime() + this.options.expectedDuration
+      }
+      this.options.showClose = true;
+      this.timeout = null;
+      this.done = false;
+  }
 
-	show(){
-		super.show()
-		this.startTime = new Date().getTime();
-		this.element.append(`<div class="progress-bar"><span style="background: rgba(50, 0, 150, 0.3)"></span><div></div></div>`)
+  show(){
+    super.show()
+    this.startTime = new Date().getTime();
+    this.element.append(`<div class="progress-bar"><span style="background: rgba(50, 0, 150, 0.3)"></span><div></div></div>`)
 
-		this.updateProgress()
-		return this;
-	}
+    this.updateProgress()
+    return this;
+  }
 
-	eta(eta){
-		this.options.eta = eta;
-		if(this.done && eta > new Date().getTime()){
-			this.done = false;
-		}
-		return this;
-	}
+  eta(eta){
+    this.options.eta = eta;
+    if(this.done && eta > new Date().getTime()){
+      this.done = false;
+    }
+    return this;
+  }
 
-	progress(progress){
-		this.options.progress = progress
-		if(this.done && progress < 100){
-			this.done = false;
-		}
-		return this;
-	}
+  progress(progress){
+    this.options.progress = progress
+    if(this.done && progress < 100){
+      this.done = false;
+    }
+    return this;
+  }
 
-	tick(){
-		super.tick()
-		this.updateProgress();
-	}
+  tick(){
+    super.tick()
+    this.updateProgress();
+  }
 
-	statusMessage(message){
-		this.fixedStatusMessage = message;
-		this.element.find(".progress-bar div").html(this.fixedStatusMessage);
-		this.updateProgress();
-	}
+  statusMessage(message){
+    this.fixedStatusMessage = message;
+    this.element.find(".progress-bar div").html(this.fixedStatusMessage);
+    this.updateProgress();
+  }
 
-	reset(){
-		this.done = false;
-		this.statusMessage = undefined;
-		this.eta = null;
-		this.progress = 0;
-	}
+  reset(){
+    this.done = false;
+    this.statusMessage = undefined;
+    this.eta = null;
+    this.progress = 0;
+  }
 
-	updateProgress(){
-		if(this.done) return;
-		if(this.options.eta <= 0) return;
+  updateProgress(){
+    if(this.done) return;
+    if(this.options.eta <= 0) return;
 
-		let now = new Date().getTime() - this.startTime;
-		let then = this.options.eta - this.startTime;
-		if(!isNaN(this.options.progress) || this.options.eta === undefined){
-			let pct = this.options.progress || 0;
+    let now = new Date().getTime() - this.startTime;
+    let then = this.options.eta - this.startTime;
+    if(!isNaN(this.options.progress) || this.options.eta === undefined){
+      let pct = this.options.progress || 0;
 
-			this.element.find(".progress-bar span").css("width", `${pct}%`)
-			this.element.find(".progress-bar div").html(this.fixedStatusMessage ? this.fixedStatusMessage : pct < 100 ? `${pct}%` : "completed")
-			this.done = pct >= 100;
-		} else {
-			let pct = Math.min(100, parseInt((now / then) * 100));
-			let msLeft = Math.max(0, this.options.eta - new Date().getTime())
+      this.element.find(".progress-bar span").css("width", `${pct}%`)
+      this.element.find(".progress-bar div").html(this.fixedStatusMessage ? this.fixedStatusMessage : pct < 100 ? `${pct}%` : "completed")
+      this.done = pct >= 100;
+    } else {
+      let pct = Math.min(100, parseInt((now / then) * 100));
+      let msLeft = Math.max(0, this.options.eta - new Date().getTime())
 
-			this.element.find(".progress-bar span").css("width", `${pct}%`)
-			this.element.find(".progress-bar div").html(this.fixedStatusMessage ? this.fixedStatusMessage : this.millisecondsToStr(msLeft))
-		}
-	}
+      this.element.find(".progress-bar span").css("width", `${pct}%`)
+      this.element.find(".progress-bar div").html(this.fixedStatusMessage ? this.fixedStatusMessage : this.millisecondsToStr(msLeft))
+    }
+  }
 
-	finished(){
-		this.done = true;
-		this.element.find(".progress-bar span").css("width", `100%`)
-		this.element.find(".progress-bar div").html("completed")
-		return this;
-	}
+  finished(){
+    this.done = true;
+    this.element.find(".progress-bar span").css("width", `100%`)
+    this.element.find(".progress-bar div").html("completed")
+    return this;
+  }
 
-	millisecondsToStr (milliseconds) {
-		/*
+  millisecondsToStr (milliseconds) {
+    /*
     function numberEnding (number) {
         return (number > 1) ? 's' : '';
     }
@@ -264,24 +264,24 @@ class ToastProgress extends Toast{
         return seconds + ' second' + numberEnding(seconds);
     }
     return '<1 second'; //'just now' //or other string you like;
-		*/
+    */
 
-		let ret = ""
+    let ret = ""
     let temp = Math.floor(milliseconds / 1000);
-		let hours = Math.floor((temp %= 86400) / 3600);
-		if(hours)
-			ret += `${hours}h`
+    let hours = Math.floor((temp %= 86400) / 3600);
+    if(hours)
+      ret += `${hours}h`
 
     var minutes = Math.floor((temp %= 3600) / 60);
-		if(minutes)
-			ret += `${ret?' ':''}${minutes}m`
+    if(minutes)
+      ret += `${ret?' ':''}${minutes}m`
 
     var seconds = temp % 60;
-		if(seconds)
-			ret += `${ret?' ':''}${seconds}s`
+    if(seconds)
+      ret += `${ret?' ':''}${seconds}s`
 
-		return  ret ? "~" + ret : "< 1s"
-	}
+    return  ret ? "~" + ret : "< 1s"
+  }
 }
 
 var toast = (options, text) => new Toast(options, text).show();
