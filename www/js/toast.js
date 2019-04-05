@@ -191,7 +191,7 @@ class ToastProgress extends Toast{
 
 	statusMessage(message){
 		this.fixedStatusMessage = message;
-		his.element.find(".progress-bar div").html(this.fixedStatusMessage);
+		this.element.find(".progress-bar div").html(this.fixedStatusMessage);
 		this.updateProgress();
 	}
 
