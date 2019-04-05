@@ -170,16 +170,28 @@ class ToastProgress extends Toast{
 
 	eta(eta){
 		this.options.eta = eta;
+		if(this.done && eta > new Date().getTime()){
+			this.done = false;
+		}
 		return this;
 	}
 
 	progress(progress){
 		this.options.progress = progress
+		if(this.done && progress < 100){
+			this.done = false;
+		}
 		return this;
 	}
 
 	tick(){
 		super.tick()
+		this.updateProgress();
+	}
+
+	statusMessage(message){
+		this.fixedStatusMessage = message;
+		his.element.find(".progress-bar div").html(this.fixedStatusMessage);
 		this.updateProgress();
 	}
 
@@ -193,14 +205,14 @@ class ToastProgress extends Toast{
 			let pct = this.options.progress || 0;
 
 			this.element.find(".progress-bar span").css("width", `${pct}%`)
-			this.element.find(".progress-bar div").html(pct < 100 ? `${pct}%` : "completed")
+			this.element.find(".progress-bar div").html(this.fixedStatusMessage ? this.fixedStatusMessage : pct < 100 ? `${pct}%` : "completed")
 			this.done = pct >= 100;
 		} else {
 			let pct = Math.min(100, parseInt((now / then) * 100));
 			let msLeft = Math.max(0, this.options.eta - new Date().getTime())
 
 			this.element.find(".progress-bar span").css("width", `${pct}%`)
-			this.element.find(".progress-bar div").html(this.millisecondsToStr(msLeft))
+			this.element.find(".progress-bar div").html(this.fixedStatusMessage ? this.fixedStatusMessage : this.millisecondsToStr(msLeft))
 		}
 	}
 
