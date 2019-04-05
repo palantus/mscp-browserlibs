@@ -14,11 +14,15 @@
 		text: toast text
 		title: toast title (optional)
 		showClose: boolean to indicate wether a close button is shown
-		uniqueId: any kind of id. When creating new toasts, duplicates are ignored. Find existing toast with Toaster.findId(id)
+		id: any kind of id. When creating new toasts, duplicates are ignored. Find existing toast with Toaster.findId(id)
 
 	Methods:
 		kill
 		body
+
+	Properties:
+		id: unique id of the toast. Can be set manually in options
+		killed: boolean indicating if the toast has been killed.
 */
 
 class Toaster{
@@ -58,7 +62,8 @@ class Toaster{
 	kill(toast){
 		let idx = this.notifications.findIndex((n) => n === toast)
 		if(idx >= 0){
-			toast.element.fadeOut("fast");
+			toast.killed = true;
+			toast.element.fadeOut("fast", () => toast.element.remove());
 			this.notifications.splice(idx, 1)
 		}
 	}
