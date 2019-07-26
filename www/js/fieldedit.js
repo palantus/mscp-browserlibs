@@ -72,16 +72,14 @@ FieldEdit.prototype.attach = function(){
   var t = this;
 
   this.element.mouseenter(function(){
-    if(!t.valueChanged() || !t.valueElement){
-      clearTimeout(t.mouseOutTimer);
-      if(!$(".feedit .fevalueelement").is(":focus"))
+    if(!t.valueElement){
         t.show();
     }
   });
   this.element.click(function(){
-    clearTimeout(t.mouseOutTimer);
-    if(!$(".feedit .fevalueelement").is(":focus"))
+    if(!t.valueElement){
       t.show();
+    }
   });
 
   this.element.empty();
@@ -300,6 +298,7 @@ FieldEdit.prototype.hide = function(){
     this.element.off("focusout");
     this.element.off("mouseleave");
     this.element.off("keydown");
+    t.valueElement = null;
 
     if(this.options.valueDisplay !== undefined)
       this.element.append(this.options.valueDisplay ? this.options.valueDisplay : "&nbsp;");
