@@ -298,7 +298,7 @@ FieldEdit.prototype.hide = function(){
     this.element.off("focusout");
     this.element.off("mouseleave");
     this.element.off("keydown");
-    t.valueElement = null;
+    this.valueElement = null;
 
     if(this.options.valueDisplay !== undefined)
       this.element.append(this.options.valueDisplay ? this.options.valueDisplay : "&nbsp;");
