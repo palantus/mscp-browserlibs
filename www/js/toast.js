@@ -120,7 +120,11 @@ class Toast{
     if($("div.tbcbar").length > 0)
       this.element.css("transform", "translate(0px,-30px)");
 
-    this.element.click(() => this.clicked())
+    this.element.click((evt) => {
+      if(!$(evt.target).is(".close")){
+        this.clicked()
+      }
+    })
 
     return Toaster.instance.showToast(this)
   }
