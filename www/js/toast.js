@@ -113,7 +113,7 @@ class Toast{
 
     this.element.find(".body").html(this.options.body);
 
-    if(typeof this.options.onClick === "functions"){
+    if(typeof this.options.onClick === "function"){
       this.element.addClass("clickable")
     }
 
