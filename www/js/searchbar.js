@@ -73,6 +73,7 @@ SearchBar.prototype.show = function(){
 	});
 
 	bar.on("dosearch", function(){
+		clearTimeout(t.delayTimer);
 		t.invokeSearch();
 	});
 
