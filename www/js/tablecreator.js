@@ -143,6 +143,7 @@ TableCreator.prototype.setData = function(_data){
 	this.isLoading = false;
 	if(this.loadingDiv !== undefined)
 		this.loadingDiv.fadeOut("fast");
+	clearTimeout(this.loadingDivTimeout)
 	this.refreshData();
 }
 
@@ -960,7 +961,7 @@ TableCreator.prototype.startLoading = function(){
 		var pos = Math.max(tc.height() / 2, tc.height() - 200);
 		this.loadingDiv.css("top", - pos + "px");
 		var t = this;
-		setTimeout(function(){
+		this.loadingDivTimeout = setTimeout(function(){
 			if(t.isLoading)
 				t.loadingDiv.fadeIn("fast");
 		}, 200);
