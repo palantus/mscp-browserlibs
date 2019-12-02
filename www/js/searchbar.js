@@ -68,6 +68,7 @@ SearchBar.prototype.show = function(){
 		if(e.which === 40){
 			t.showDropDown();
 		} else if(e.keyCode == 13){
+			clearTimeout(t.delayTimer);
 			t.invokeSearch();
 		}
 	});
