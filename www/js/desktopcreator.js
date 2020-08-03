@@ -259,9 +259,10 @@ DesktopCreator.prototype.shortcutClicked = function(args){
 
 		if(c.gotoURL !== undefined)
 			window.location = c.gotoURL;
+
     if(c.openURL !== undefined){
-			let woptions = typeof c.openURL == "string" ? {url: c.openURL} : c.openURL;
-			if(woptions.center === true)
+      let woptions = typeof c.openURL == "string" ? {url: c.openURL} : c.openURL;
+      if(woptions.center === true)
 				DesktopCreator.popupCenter(woptions.url, c.title || "Popup", woptions.width || 500, woptions.height || 500, woptions.specs)
 			else
 				window.open(woptions.url,'_blank', woptions.specs);

@@ -152,7 +152,7 @@ TableCreator.prototype.rowClicked = function(row){
 
 TableCreator.prototype.setLinesPerPage = function(row){
 	var tmpNum = $("#" + this.options.elementId + " div.tcheader select").val();
-	if(!isNaN(tmpNum))
+	if(!isNaN(tmpNum) && tmpNum !== null)
 		this.linesPerPage = parseInt(tmpNum);
 	else if(tmpNum == "all")
 		this.linesPerPage = Number.MAX_VALUE;
